@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/bootstrap-fileinput/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+    <script src="Scripts/jquery-1.9.1.min.js"></script>
+    <!-- the main fileinput plugin file -->
+    <script src="Content/bootstrap-fileinput/fileinput.min.js"></script>
+    <!-- bootstrap.js below is needed if you wish to zoom and view file content
+         in a larger detailed modal dialog -->
+    <script src="Scripts/bootstrap.min.js"></script>
+    <!-- optionally if you need a theme like font awesome theme you can include
+        it as mentioned below -->
+    <script src="Content/bootstrap-fileinput/themes/fa/theme.js"></script>
+    <!-- optionally if you need translation for your language then include
+        locale file as mentioned below -->
+    <script src="Content/bootstrap-fileinput/locales/zh-TW.js"></script>
+    <script>
+        //上傳檔案完成後
+        function fileuploaded(event, data, id, index) {
+            //alert(index + ',' + data.files[index].name + ',' + data.response.URL);
+            $('#list').append('<li><a href="' + data.response.URL + '" target=_blank><span>' + data.files[index].name + '</span></a></li>');
+        }
+        //上傳前
+        function filepreupload() {
+            //清空list
+            $('#list').empty();
+        }
+
+        function setupFileUploadBox() {
+            //setup file upload 
+            $("#input-id").fileinput(
+                {
+                    language: 'zh-TW',  //支援中文
+                    showUpload: true,
+                    previewFileType: 'any',
+                    uploadAsync: true,
+                    maxFileCount: 5,
+                    uploadUrl: 'ReceieveFile.aspx'
+                }
+            ).on('fileuploaded', fileuploaded).on('filepreupload', filepreupload);
+        }
+    </script>
+</head>
+<body>
+    <div class="row" style="margin: 12px">
+        <div class="col-lg-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    範例 : 非同步上傳檔案
+                </div>
+                <div class="panel-body">
+                    <input id="input-id" name="input-id[]" type="file" class="file" multiple data-show-preview="true" data-preview-file-type="text">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <h1>上傳檔案</h1>
+            <ol id="list"></ol>
+        </div>
+    </div>
+        <script>
+            //setup
+            setupFileUploadBox();
+        </script>
+</body>
+</html>
